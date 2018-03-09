@@ -4,6 +4,7 @@ int cols, rows;
 float zoff = 0;
 ArrayList<Particle> particles = new ArrayList<Particle>();
 PVector[] flow;
+float mag = 1;
 
 void setup() {
   //size(500, 500);
@@ -30,7 +31,11 @@ void draw() {
       int index = (x + y * cols);
       float r = noise(xoff, yoff, zoff) * TWO_PI * 4;
       PVector v = PVector.fromAngle(r+(random(0.2)-0.1));
-      v.setMag(map(noise(zoff*0.001), 0, 1, 0, 2));
+      if (mag == 1) {
+        v.setMag(map(noise(zoff*0.001), 0, 1, 0, 1));
+      } else {
+        v.setMag(mag);
+      }
       flow[index] = v;
       xoff += inc;
       //fill(r);
@@ -54,13 +59,22 @@ void draw() {
 }
 
 void keyPressed() {
-  background(0);
   for (Particle part : particles) {
-    if (keyCode > 50) {
-      part.pos = new PVector(random(width), random(height));
+    if (key == ' ') {
+      mag = 0;
     } else {
-      part.pos = new PVector(width/2, height/2);
+      background(0);
+      mag = 1;
+      if (keyCode > 50) {
+        part.pos = new PVector(random(width), random(height));
+      } else {
+        part.pos = new PVector(width/2, height/2);
+      }
+      part.Ppos = part.pos;
     }
-    part.Ppos = part.pos;
   }
+}
+
+void keyReleased() {
+   mag = 1;
 }
