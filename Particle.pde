@@ -2,7 +2,7 @@ class Particle {
   PVector pos, vel, acc, Ppos;
   float maxspeed = 4;
   Particle() {
-    pos = new PVector(random(width), random(height));
+    pos = new PVector(width/2, height/2);
     Ppos = pos.copy();
     vel = new PVector(0, 0);
     acc = new PVector(0, 0);
